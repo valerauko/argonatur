@@ -4,7 +4,7 @@ metadata:
   name: argocd-server
 spec:
   rules:
-    - host: argo.dekiru.tech
+    - host: argo.example.com
       http:
         paths:
           - path: /
@@ -16,4 +16,4 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - argo.dekiru.tech
+        - argo.example.com

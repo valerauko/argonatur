@@ -1,0 +1,78 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "11"
+spec:
+  project: system
+  source:
+    repoURL: https://helm.traefik.io/traefik
+    targetRevision: "10.*"
+    chart: traefik
+
+    helm:
+      releaseName: traefik
+
+      values: |
+        deployment:
+          podAnnotations:
+            prometheus.io/scrape: "true"
+            prometheus.io/path: "/metrics"
+            prometheus.io/port: "9000"
+          initContainers:
+            - name: volume-permissions
+              image: busybox:1.31.1
+              command: ["sh", "-c", "chmod -Rv 600 /data/*"]
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+        certResolvers:
+          letsencrypt:
+            email: admin@example.com
+            storage: /data/acme.json
+            dnsChallenge:
+              provider: httpreq
+              delayBeforeCheck: 60
+        additionalArguments:
+          - "--metrics.prometheus.addServicesLabels=true"
+        env:
+          - name: HTTPREQ_ENDPOINT
+            value: http://panther.kube-system.svc.cluster.local
+        persistence:
+          enabled: true
+          size: 32Mi
+          storageClass: longhorn
+        ports:
+          web:
+            redirectTo: websecure
+          websecure:
+            tls:
+              enabled: true
+              certResolver: letsencrypt
+              domains:
+                - main: "*.example.com"
+                  sans:
+                    - "example.com"
+        providers:
+          kubernetesIngress:
+            publishedService:
+              enabled: true
+            namespaces:
+              - argo-cd
+              - default
+              - monitoring
+        logs:
+          general:
+            level: INFO
+          access:
+            enabled: true
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+
+  syncPolicy:
+    automated:
+      selfHeal: true
