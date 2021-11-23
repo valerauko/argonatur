@@ -16,7 +16,7 @@ spec:
       releaseName: prometheus
 
       valueFiles:
-        - https://github.com/valerauko/argonaut/components/prometheus/base/values.yaml
+        - https://raw.githubusercontent.com/valerauko/argonaut/main/components/prometheus/base/values.yaml
 
   destination:
     server: https://kubernetes.default.svc

@@ -13,4 +13,4 @@ patchesJson6902:
     patch: |-
       - op: add
         path: /spec/source/helm/valueFiles/-
-        value: "https://github.com/valerauko/argonaut/components/prometheus/overlays/prd/values.yaml"
+        value: "https://raw.githubusercontent.com/valerauko/argonaut/main/components/prometheus/overlays/prd/values.yaml"
