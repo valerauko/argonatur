@@ -1,6 +1,7 @@
 apiVersion: v2
 name: Traefik override
 # make this the same as the traefik dependency to avoid confusion
+# there has to be a tag/branch of this name in the repo or else
 version: 10.6.2
 description: Traefik Helm chart override
 type: application
