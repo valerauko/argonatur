@@ -5,3 +5,4 @@ bases:
 resources:
   - resources/application.yaml
   - resources/namespaces.yaml
+  - resources/system.yaml
