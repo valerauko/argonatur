@@ -5,3 +5,5 @@ bases:
   - github.com/argoproj/argo-cd/manifests/ha/cluster-install?ref=v2.1.7
 resources:
   - resources/ingress.yaml
+patchesStrategicMerge:
+  - patches/configmap.yaml
