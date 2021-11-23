@@ -1,0 +1,14 @@
+server:
+  global:
+    scrape_interval: 30s
+  persistentVolume:
+    storageClass: longhorn
+  statefulSet:
+    enabled: true
+alertmanager:
+  persistentVolume:
+    storageClass: longhorn
+  statefulSet:
+    enabled: true
+networkPolicy:
+  enabled: true

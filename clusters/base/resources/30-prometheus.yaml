@@ -15,22 +15,8 @@ spec:
     helm:
       releaseName: prometheus
 
-      values: |
-        global:
-          scrape_interval: 10s
-        server:
-          retention: "168h"
-          persistentVolume:
-            storageClass: longhorn
-          statefulSet:
-            enabled: true
-        alertmanager:
-          persistentVolume:
-            storageClass: longhorn
-          statefulSet:
-            enabled: true
-        networkPolicy:
-          enabled: true
+      valueFiles:
+        - https://github.com/valerauko/argonaut/components/prometheus/base/values.yaml
 
   destination:
     server: https://kubernetes.default.svc

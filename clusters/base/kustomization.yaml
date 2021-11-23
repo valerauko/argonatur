@@ -5,3 +5,6 @@ resources:
   - resources/10-panther.yaml
   - resources/11-traefik.yaml
   - resources/20-argocd.yaml
+  - resources/30-prometheus.yaml
+  - resources/31-loki.yaml
+  - resources/32-metrics-server.yaml
