@@ -1,0 +1,10 @@
+apiVersion: v2
+name: Traefik override
+# make this the same as the traefik dependency to avoid confusion
+version: 10.6.2
+description: Traefik Helm chart override
+type: application
+dependencies:
+  - name: traefik
+    version: 10.6.2
+    repository: https://helm.traefik.io/traefik

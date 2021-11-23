@@ -1,0 +1,8 @@
+traefik:
+  ports:
+    websecure:
+      tls:
+        domains:
+          - main: "*.example.com"
+            sans:
+              - "example.com"

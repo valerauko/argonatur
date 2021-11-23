@@ -8,66 +8,14 @@ metadata:
 spec:
   project: system
   source:
-    repoURL: https://helm.traefik.io/traefik
-    targetRevision: "10.*"
-    chart: traefik
+    repoURL: https://github.com/valerauko/argonaut
+    targetRevision: main
+    path: components/traefik/chart
 
     helm:
       releaseName: traefik
 
-      values: |
-        deployment:
-          podAnnotations:
-            prometheus.io/scrape: "true"
-            prometheus.io/path: "/metrics"
-            prometheus.io/port: "9000"
-          initContainers:
-            - name: volume-permissions
-              image: busybox:1.31.1
-              command: ["sh", "-c", "chmod -Rv 600 /data/*"]
-              volumeMounts:
-                - name: data
-                  mountPath: /data
-        certResolvers:
-          letsencrypt:
-            email: admin@example.com
-            storage: /data/acme.json
-            dnsChallenge:
-              provider: httpreq
-              delayBeforeCheck: 60
-        additionalArguments:
-          - "--metrics.prometheus.addServicesLabels=true"
-        env:
-          - name: HTTPREQ_ENDPOINT
-            value: http://panther.kube-system.svc.cluster.local
-        persistence:
-          enabled: true
-          size: 32Mi
-          storageClass: longhorn
-        ports:
-          web:
-            redirectTo: websecure
-          websecure:
-            tls:
-              enabled: true
-              certResolver: letsencrypt
-              domains:
-                - main: "*.example.com"
-                  sans:
-                    - "example.com"
-        providers:
-          kubernetesIngress:
-            publishedService:
-              enabled: true
-            namespaces:
-              - argo-cd
-              - default
-              - monitoring
-        logs:
-          general:
-            level: INFO
-          access:
-            enabled: true
+      valueFiles: ../values/prd/values.yaml
 
   destination:
     server: https://kubernetes.default.svc
