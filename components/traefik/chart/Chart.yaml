@@ -6,5 +6,5 @@ description: Traefik Helm chart override
 type: application
 dependencies:
   - name: traefik
-    version: main
+    version: 10.6.2
     repository: https://helm.traefik.io/traefik
